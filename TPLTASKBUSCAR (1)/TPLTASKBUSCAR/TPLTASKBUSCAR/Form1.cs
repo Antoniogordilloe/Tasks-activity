@@ -73,21 +73,28 @@ namespace TPLTASKBUSCAR
                 do
                 {
                     Task.WaitAll(tasks.ToArray());
-                    results = results + tasks[contador - 1].Result + "\n"; 
+                    results = results + tasks[contador - 1].Result + "\n";
 
+                    if (!string.IsNullOrEmpty(tasks[contador - 1].Result))
+                    {
+                        encontrado = true;
+                    }
 
-                
                     contador--;
-                } while (contador > 0 && !encontrado);
+                } while (contador > 0);
 
-                if (results.Equals(""))
+
+                //if results lenghts equals 0
+
+                if (!encontrado)
                 {
                     txtResult.Text = "No Encontrado!";
                 }
-                else {
+                else
+                {
                     txtResult.Text = results;
-                    
                 }
+
 
                 int[] countResults = new int[2];
 
