@@ -12,7 +12,7 @@ namespace TPLTASKBUSCAR
 {
     public partial class Form1 : Form
     {
-        string hola = "";
+        string results = "";
         public Form1()
         {
             InitializeComponent();
@@ -60,6 +60,7 @@ namespace TPLTASKBUSCAR
                 }
                 if (chkLast.Checked)
                 {
+         
                     tasks.Add( new Task<string>(() => trolo.buscar(txtbuscar.Text, 2)));
                     tasks[tasks.Count - 1].Start();
                     contador++;
@@ -67,13 +68,15 @@ namespace TPLTASKBUSCAR
                 do
                 {
                     Task.WaitAll(tasks.ToArray());
-                    encontrado = check(tasks[contador - 1].Result);
+
+                    results = results + tasks[contador - 1].Result + "\n"; 
+                
                     contador--;
                 } while (contador > 0 && !encontrado);
 
-                if (encontrado)
+                if (!results.Equals(""))
                 {
-                    txtResult.Text = hola;
+                    txtResult.Text = results;
                 }
                 else {
                     txtResult.Text = "No Encontrado!";
@@ -84,7 +87,7 @@ namespace TPLTASKBUSCAR
         private bool check(string check) {
             if (!check.Equals(""))
             {
-                hola = check;
+                results = check;
                 return true;
             }
             else {

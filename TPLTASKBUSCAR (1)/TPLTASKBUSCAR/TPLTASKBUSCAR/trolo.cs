@@ -12,13 +12,15 @@ namespace TPLTASKBUSCAR
         public static String buscar(string texto, int tipo) {
             var reader = new StreamReader(File.OpenRead(@"data\arxiuUsers.csv"));
             string final = "";
-            while (!reader.EndOfStream && final.Equals(""))
+            while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
                 var values = line.Split(',');
-                if (texto.Equals(values[tipo])) {
-                    final = line;
+                if (texto.Equals(values[tipo], StringComparison.OrdinalIgnoreCase))
+                {
+                    final += line + Environment.NewLine;
                 }
+
             }
             return final;
         }
