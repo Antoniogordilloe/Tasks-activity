@@ -20,6 +20,9 @@ namespace TPLTASKBUSCAR
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+
+            txtResult.Text = "";
+            results = "";
             if (!chkCountry.Checked && !chkEmail.Checked && !chkFirst.Checked && !chkid.Checked && !chkIP.Checked && !chkLast.Checked)
             {
                 txtResult.Text = "ERROR: Selecciona un campo mínimo";
@@ -65,22 +68,39 @@ namespace TPLTASKBUSCAR
                     tasks[tasks.Count - 1].Start();
                     contador++;
                 }
+
+               
                 do
                 {
                     Task.WaitAll(tasks.ToArray());
-
                     results = results + tasks[contador - 1].Result + "\n"; 
+
+
                 
                     contador--;
                 } while (contador > 0 && !encontrado);
 
-                if (!results.Equals(""))
+                if (results.Equals(""))
                 {
-                    txtResult.Text = results;
-                }
-                else {
                     txtResult.Text = "No Encontrado!";
                 }
+                else {
+                    txtResult.Text = results;
+                    
+                }
+
+                int[] countResults = new int[2];
+
+                Task countEmailsEduTask = new Task(() => countEmailsEdu(results, countResults));
+                Task countEmailsInfoTask = new Task(() => countEmailsInfo(results, countResults));
+               
+                countEmailsEduTask.Start();
+                countEmailsInfoTask.Start();
+
+                Task.WaitAll(countEmailsEduTask);
+                Task.WaitAll(countEmailsInfoTask);
+
+                eduCount.Text = "Emails check -> .edu Count: " +  countResults[0].ToString() + " .info Count: " + countResults[1].ToString();
             }
 
         }
@@ -95,5 +115,41 @@ namespace TPLTASKBUSCAR
                 return false;
             }
         }
+
+
+        private void countEmailsEdu(string emails, int[] countResults)
+        {
+            for (int i = 0; i < emails.Length; i++)
+            {
+                if (emails[i] == '.')
+                {
+                    if (emails[i + 1] == 'e' && emails[i + 2] == 'd' && emails[i + 3] == 'u')
+                    {
+                        countResults[0]++;
+                    }
+                }
+            }
+          
+
+        }
+
+        private void countEmailsInfo(string emails, int[] countResults)
+        {
+          
+            for (int i = 0; i < emails.Length; i++)
+            {
+                if (emails[i] == '.')
+                {
+                    if (emails[i + 1] == 'i' && emails[i + 2] == 'n' && emails[i + 3] == 'f' && emails[i + 4] == 'o')
+                    {
+                        countResults[1]++;
+                    }
+                }
+            }
+
+        }
+
+
+
     }
 }

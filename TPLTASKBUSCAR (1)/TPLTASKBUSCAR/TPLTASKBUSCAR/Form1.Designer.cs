@@ -1,4 +1,6 @@
-﻿namespace TPLTASKBUSCAR
+﻿using System.Windows.Forms;
+
+namespace TPLTASKBUSCAR
 {
     partial class Form1
     {
@@ -37,6 +39,7 @@
             this.txtbuscar = new System.Windows.Forms.TextBox();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.txtResult = new System.Windows.Forms.RichTextBox();
+            this.eduCount = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // chkLast
@@ -126,7 +129,7 @@
             // 
             // txtResult
             // 
-            this.txtResult.Location = new System.Drawing.Point(255, 157);
+            this.txtResult.Location = new System.Drawing.Point(263, 182);
             this.txtResult.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtResult.Name = "txtResult";
             this.txtResult.ReadOnly = true;
@@ -134,11 +137,19 @@
             this.txtResult.TabIndex = 8;
             this.txtResult.Text = "";
             // 
+            // eduCount
+            // 
+            this.eduCount.Location = new System.Drawing.Point(263, 148);
+            this.eduCount.Name = "eduCount";
+            this.eduCount.Size = new System.Drawing.Size(668, 26);
+            this.eduCount.TabIndex = 0;
+            this.eduCount.Text = "Emails check ->";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1196, 402);
+            this.ClientSize = new System.Drawing.Size(1223, 468);
             this.Controls.Add(this.txtResult);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.txtbuscar);
@@ -148,6 +159,7 @@
             this.Controls.Add(this.chkCountry);
             this.Controls.Add(this.chkEmail);
             this.Controls.Add(this.chkLast);
+            this.Controls.Add(this.eduCount);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -167,6 +179,7 @@
         private System.Windows.Forms.TextBox txtbuscar;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.RichTextBox txtResult;
+        private System.Windows.Forms.TextBox eduCount;
     }
 }
 
