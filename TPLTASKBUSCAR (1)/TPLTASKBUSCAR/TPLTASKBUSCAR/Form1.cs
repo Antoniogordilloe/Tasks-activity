@@ -26,48 +26,56 @@ namespace TPLTASKBUSCAR
             }
             else {
                 List<Task<string>> tasks = new List<Task<string>>();
-                List<string> results = new List<string>();
-  
+                int contador = 0;
+                bool encontrado = false;
 
                 if (chkCountry.Checked)
                 {
                     tasks.Add( new Task<string>(() => trolo.buscar(txtbuscar.Text, 4)));
                     tasks[tasks.Count-1].Start();
+                    contador++;
                 }
                 if (chkEmail.Checked) {
                     tasks.Add( new Task<string>(() => trolo.buscar(txtbuscar.Text, 3)));
                     tasks[tasks.Count - 1].Start();
+                    contador++;
                 }
                 if (chkFirst.Checked)
                 {
                     tasks.Add( new Task<string>(() => trolo.buscar(txtbuscar.Text, 1)));
                     tasks[tasks.Count - 1].Start();
+                    contador++;
                 }
                 if (chkid.Checked)
                 {
                     tasks.Add( new Task<string>(() => trolo.buscar(txtbuscar.Text, 0)));
                     tasks[tasks.Count - 1].Start();
-               
+                    contador++;
                 }
                 if (chkIP.Checked)
                 {
                    tasks.Add( new Task<string>(() => trolo.buscar(txtbuscar.Text, 5)));
                     tasks[tasks.Count - 1].Start();
+                    contador++;
                 }
                 if (chkLast.Checked)
                 {
                     tasks.Add( new Task<string>(() => trolo.buscar(txtbuscar.Text, 2)));
                     tasks[tasks.Count - 1].Start();
+                    contador++;
                 }
-                
-                results.AddRange(tasks.Select(task => task.Result));
-
-                if (results.Any(result => check(result))) { 
-
-                    txtResult.Text = string.Join(Environment.NewLine, results.Where(result => !string.IsNullOrEmpty(result))) ;
-                }
-                else
+                do
                 {
+                    Task.WaitAll(tasks.ToArray());
+                    encontrado = check(tasks[contador - 1].Result);
+                    contador--;
+                } while (contador > 0 && !encontrado);
+
+                if (encontrado)
+                {
+                    txtResult.Text = hola;
+                }
+                else {
                     txtResult.Text = "No Encontrado!";
                 }
             }
@@ -83,11 +91,6 @@ namespace TPLTASKBUSCAR
 
                 return false;
             }
-        }
-
-        private void txtResult_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
